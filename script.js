@@ -42,20 +42,22 @@ form && form.addEventListener('submit', async (event) => {
     // 获取用户输入的值
     var nameEl = document.getElementById('name-input');
     var wechatEl = document.getElementById('wechat-input');
+    var ticketEl = document.getElementById('ticket-select');
     var name = nameEl && nameEl.value ? nameEl.value : '';
     var wechat = wechatEl && wechatEl.value ? wechatEl.value : '';
+    var ticket = ticketEl && ticketEl.value ? ticketEl.value : '';
 
-    if (!name || !wechat) {
-        alert('name? wechat?');
+    if (!name || !wechat || !ticket) {
+        alert('name? wechat? 票选了没?');
         return;
     }
 
     submitButton.disabled = true; // 防止重复提交
     var originalText = submitButton.textContent;
-    submitButton.textContent = '携🦖入跑道。。。';
+    submitButton.textContent = '骑上我的🦖。。。';
 
     // 前端只发送简单的 name/wechat 给 Worker，Worker 会把它映射到 Airtable 的字段
-    var payload = { name: name, wechat: wechat };
+    var payload = { name: name, wechat: wechat, ticket: ticket };
 
     try {
         var response = await fetchWithTimeout(PROXY_URL, {
@@ -66,16 +68,16 @@ form && form.addEventListener('submit', async (event) => {
 
         if (!response.ok) {
             var text = '';
-            try { text = await response.text(); } catch (e) {}
+            try { text = await response.text(); } catch (e) { }
             throw new Error('no response: ' + response.status + ' ' + response.statusText + ' ' + text);
         }
 
-    alert('Yea! Come come');
-    form.reset(); // 清空表单
-    // 显示感谢图片（如果存在）
-    var popup = document.getElementById('image-popup');
-    if (popup) popup.style.display = 'block';
-    await fetchRegistrations(); // 报名成功后立即刷新列表
+        alert('Yea! Come come');
+        form.reset(); // 清空表单
+        // 显示感谢图片（如果存在）
+        var popup = document.getElementById('image-popup');
+        if (popup) popup.style.display = 'block';
+        await fetchRegistrations(); // 报名成功后立即刷新列表
     } catch (error) {
         console.error('sry, fail', error);
         alert('没成功。。。等会儿试试？');
@@ -99,7 +101,7 @@ async function fetchRegistrations() {
 
         if (!response.ok) {
             var text = '';
-            try { text = await response.text(); } catch (e) {}
+            try { text = await response.text(); } catch (e) { }
             throw new Error('掉线了guys: ' + response.status + ' ' + response.statusText + ' ' + text);
         }
 
@@ -111,13 +113,13 @@ async function fetchRegistrations() {
         if (records.length === 0) {
             resultsContainer.innerHTML = '<p>nobody is here</p>';
         } else {
-            records.forEach(function(person) {
+            records.forEach(function (person) {
                 var personDiv = document.createElement('div');
                 personDiv.className = 'person';
                 var name = (person.fields && person.fields.Name) ? person.fields.Name : '(无名)';
                 // var wechat = (person.fields && person.fields.wechat) ? person.fields.wechat : '(无)';
                 // personDiv.textContent = '姓名: ' + name + ', 微信号: ' + wechat;
-                personDiv.textContent =  name + '入库成功 ';
+                personDiv.textContent = name + '入库成功 ';
                 resultsContainer.appendChild(personDiv);
             });
         }
