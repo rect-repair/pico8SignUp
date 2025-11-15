@@ -126,7 +126,7 @@ async function fetchRegistrations() {
 
                 var displayText = name + '入库成功 ';
                 if (answer) {
-                    displayText += ' | 留言: ' + answer;
+                    displayText += '  |  ' + answer;
                 }
                 personDiv.textContent = displayText;
                 resultsContainer.appendChild(personDiv);
