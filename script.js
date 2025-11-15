@@ -52,7 +52,7 @@ form && form.addEventListener('submit', async (event) => {
 
     submitButton.disabled = true; // 防止重复提交
     var originalText = submitButton.textContent;
-    submitButton.textContent = '入库中。。。';
+    submitButton.textContent = '携🦖入跑道。。。';
 
     // 前端只发送简单的 name/wechat 给 Worker，Worker 会把它映射到 Airtable 的字段
     var payload = { name: name, wechat: wechat };
