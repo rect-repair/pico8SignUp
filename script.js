@@ -43,9 +43,12 @@ form && form.addEventListener('submit', async (event) => {
     var nameEl = document.getElementById('name-input');
     var wechatEl = document.getElementById('wechat-input');
     var ticketEl = document.getElementById('ticket-select');
+    var answerEl = document.getElementById('answer-input');
+
     var name = nameEl && nameEl.value ? nameEl.value : '';
     var wechat = wechatEl && wechatEl.value ? wechatEl.value : '';
     var ticket = ticketEl && ticketEl.value ? ticketEl.value : '';
+    var answer = answerEl && answerEl.value ? answerEl.value : '';
 
     if (!name || !wechat || !ticket) {
         alert('name? wechat? 票选了没?');
@@ -57,7 +60,7 @@ form && form.addEventListener('submit', async (event) => {
     submitButton.textContent = '骑上我的🦖。。。';
 
     // 前端只发送简单的 name/wechat 给 Worker，Worker 会把它映射到 Airtable 的字段
-    var payload = { name: name, wechat: wechat, ticket: ticket };
+    var payload = { name: name, wechat: wechat, ticket: ticket, answer: answer };
 
     try {
         var response = await fetchWithTimeout(PROXY_URL, {
@@ -119,12 +122,18 @@ async function fetchRegistrations() {
                 var name = (person.fields && person.fields.Name) ? person.fields.Name : '(无名)';
                 // var wechat = (person.fields && person.fields.wechat) ? person.fields.wechat : '(无)';
                 // personDiv.textContent = '姓名: ' + name + ', 微信号: ' + wechat;
-                personDiv.textContent = name + '入库成功 ';
+                var answer = (person.fields && person.fields.answer) ? person.fields.answer : '';
+
+                var displayText = name + '入库成功 ';
+                if (answer) {
+                    displayText += ' | 留言: ' + answer;
+                }
+                personDiv.textContent = displayText;
                 resultsContainer.appendChild(personDiv);
             });
         }
     } catch (error) {
-        console.error('看不见隔壁有哪些车了:', error);
+        console.error('看不见隔壁有哪些人了:', error);
         resultsContainer.innerHTML = '<p>failfail 列表, refresh!</p>';
     }
 }
