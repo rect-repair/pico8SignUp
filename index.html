@@ -23,6 +23,15 @@
             <input type="wechat" id="wechat-input" required>
         </div>
 
+        <div class="form-row">
+            <label for="ticket-select">买啥票？</label>
+            <select id="ticket-select">
+                <option value="">--选一下--</option>
+                <option value="全价票">全价票</option>
+                <option value="学生/无业票">学生/无业票</option>
+            </select>
+        </div>
+
         <button type="submit" id="submit-button">我准备好了 >>></button>
     </form>
 
@@ -36,6 +45,8 @@
         <img id="thank-img" src="./images/html2.JPG" alt="Welcome to PICO 8 Dinosaur Runner！"
             style="max-width:50%; height:auto;">
     </div>
+
+
 
     <script src="script.js"></script>
     <!-- diagnostic: check image load and fetch status -->
