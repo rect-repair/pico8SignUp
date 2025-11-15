@@ -1,7 +1,7 @@
 // PROXY_URL: 把这个替换为你部署到 Cloudflare Workers 的完整 URL（不要在前端放置 Airtable token）
 // 例如: const PROXY_URL = 'https://your-worker-name.workers.dev';
 // 如果你只写了主机名（没有协议），下面的规范化代码会尝试补上 https://
-let PROXY_URL = 'https://rectkyoto.yueminh2.workers.dev';
+let PROXY_URL = 'https://rectpico8.yueminh2.workers.dev';
 if (typeof PROXY_URL === 'string' && !PROXY_URL.startsWith('http://') && !PROXY_URL.startsWith('https://')) {
     // 在本地开发中如果需要使用 http，可以把 PROXY_URL 改为 'http://...'
     PROXY_URL = 'https://' + PROXY_URL;
